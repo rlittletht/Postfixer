@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostfixText", "PostfixText\PostfixText.csproj", "{F70B5637-8A95-4790-9E00-0C8161003A05}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F70B5637-8A95-4790-9E00-0C8161003A05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F70B5637-8A95-4790-9E00-0C8161003A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F70B5637-8A95-4790-9E00-0C8161003A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F70B5637-8A95-4790-9E00-0C8161003A05}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED1E9898-E082-481D-9FEF-C78EE1EBACB5}
+	EndGlobalSection
+EndGlobal
