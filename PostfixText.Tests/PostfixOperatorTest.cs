@@ -7,6 +7,7 @@ using NUnit.Framework;
 
 namespace PostfixText.Tests
 {
+    [TestFixture]
     public class PostfixOperatorTest
     {
         [TestCase('&', true)] // &&

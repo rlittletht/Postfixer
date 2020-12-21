@@ -127,7 +127,7 @@ namespace PostfixText
                         return true;
 
                     m_state = ParsingState.Initial;
-                    // we're done parsing Value1. if we're not supposed to unget
+                    // we're done parsing Value2. if we're not supposed to unget
                     // the character, then return and we'll continue with the
                     // next char
                     fUnget = fUngetValueChar;

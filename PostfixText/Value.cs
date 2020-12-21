@@ -113,8 +113,15 @@ namespace PostfixText
                     case ValueType.Number:
                         if (!char.IsDigit(ch))
                         {
-                            if (char.IsWhiteSpace(ch))
+                            if (char.IsWhiteSpace(ch) || ch == '\0')
                             {
+                                FinishParse();
+                                return false;
+                            }
+
+                            if (ch == '&' || ch == '|') // this terminates our parse and we push it back
+                            {
+                                fUnget = true;
                                 FinishParse();
                                 return false;
                             }

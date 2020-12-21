@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClauseTest.cs" />
     <Compile Include="ComparisonOperatorTest.cs" />
     <Compile Include="ExpressionTest.cs" />
     <Compile Include="PostfixOperatorTest.cs" />

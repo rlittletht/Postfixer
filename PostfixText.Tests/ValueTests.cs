@@ -31,6 +31,7 @@ namespace PostfixText.Tests
         }
 
         [TestCase('1', '2', true, false, "12")]
+        [TestCase('1', '&', false, true, null)]// null because it was propagated to the final string
         [TestCase('1', ' ', false, false, null)] // null because it was propagated to the final string
         [TestCase('[', 'D', true, false, "D")]
         [TestCase('{', '2', true, false, "2")]
@@ -46,6 +47,7 @@ namespace PostfixText.Tests
         }
 
         [TestCase("123 ", false, "123")]
+        [TestCase("123&&", true, "123")]
         [TestCase("[field]", false, "field")]
         [TestCase("{123} ", false, "123")]
         [TestCase("'foo'", false, "foo")]
