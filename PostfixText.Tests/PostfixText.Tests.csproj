@@ -50,6 +50,7 @@
     <Compile Include="ClauseTest.cs" />
     <Compile Include="ComparisonOperatorTest.cs" />
     <Compile Include="ExpressionTest.cs" />
+    <Compile Include="ParserTest.cs" />
     <Compile Include="PostfixOperatorTest.cs" />
     <Compile Include="PostFixTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
