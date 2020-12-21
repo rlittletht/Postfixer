@@ -14,15 +14,15 @@ namespace PostfixText.Tests
         // we already tested all of the sub components, so we just have to test
         // how they stitch together
 
-        [TestCase("[foo]=={123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.CmpOp.Eq, "123", Parser.Value.ValueType.DateTime, false) ]
-        [TestCase("[foo]<={123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.CmpOp.Lte, "123", Parser.Value.ValueType.DateTime, false)]
-        [TestCase("[foo]<{123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.CmpOp.Lt, "123", Parser.Value.ValueType.DateTime, false)]
-        [TestCase("[foo]  <=  {123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.CmpOp.Lte, "123", Parser.Value.ValueType.DateTime, false)]
-        [TestCase("[foo]  <  {123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.CmpOp.Lt, "123", Parser.Value.ValueType.DateTime, false)]
-        [TestCase("[foo]  :<  {123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.CmpOp.SLt, "123", Parser.Value.ValueType.DateTime, false)]
-        [TestCase("[foo]  :== {123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.CmpOp.SEq, "123", Parser.Value.ValueType.DateTime, false)]
+        [TestCase("[foo]=={123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.Op.Eq, "123", Parser.Value.ValueType.DateTime, false) ]
+        [TestCase("[foo]<={123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.Op.Lte, "123", Parser.Value.ValueType.DateTime, false)]
+        [TestCase("[foo]<{123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.Op.Lt, "123", Parser.Value.ValueType.DateTime, false)]
+        [TestCase("[foo]  <=  {123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.Op.Lte, "123", Parser.Value.ValueType.DateTime, false)]
+        [TestCase("[foo]  <  {123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.Op.Lt, "123", Parser.Value.ValueType.DateTime, false)]
+        [TestCase("[foo]  :<  {123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.Op.SLt, "123", Parser.Value.ValueType.DateTime, false)]
+        [TestCase("[foo]  :== {123}", "foo", Parser.Value.ValueType.Field, Parser.ComparisonOperator.Op.SEq, "123", Parser.Value.ValueType.DateTime, false)]
         [Test]
-        public static void TestExpressionParserFull(string sInput, string sLhsExpected, ValueType lhsTypeExpected, Parser.ComparisonOperator.CmpOp cmpOpExpected, string sRhsExpected, ValueType rhsTypeExpected, bool fUngetExpected)
+        public static void TestExpressionParserFull(string sInput, string sLhsExpected, ValueType lhsTypeExpected, Parser.ComparisonOperator.Op opExpected, string sRhsExpected, ValueType rhsTypeExpected, bool fUngetExpected)
         {
             Assert.IsTrue(Parser.Expression.FAcceptParseStart(sInput[0], out Parser.Expression expression));
 
@@ -34,7 +34,7 @@ namespace PostfixText.Tests
 
             Assert.AreEqual(sLhsExpected, expression.m_lhs.m_value);
             Assert.AreEqual(lhsTypeExpected, expression.m_lhs.m_type);
-            Assert.AreEqual(cmpOpExpected, expression.m_comparisonOp.Operator);
+            Assert.AreEqual(opExpected, expression.m_comparisonOp.Operator);
             Assert.AreEqual(sRhsExpected, expression.m_rhs.m_value);
             Assert.AreEqual(rhsTypeExpected, expression.m_rhs.m_type);
             Assert.AreEqual(fUngetExpected, fUngetActual);

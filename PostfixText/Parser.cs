@@ -16,6 +16,9 @@ namespace PostfixText
         enum State
         {
             Initial,
+            PreExpression,
+            Expression,
+
             PreToken,
             Token,
             PreComparisonOp,

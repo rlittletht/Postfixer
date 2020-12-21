@@ -49,20 +49,20 @@ namespace PostfixText.Tests
             Assert.AreEqual(fUngetExpected, fUngetActual);
         }
 
-        [TestCase(":< ", true, Parser.ComparisonOperator.CmpOp.SLt) ]
-        [TestCase(":<= ", false,Parser.ComparisonOperator.CmpOp.SLte) ]
-        [TestCase(":> ", true, Parser.ComparisonOperator.CmpOp.SGt) ]
-        [TestCase(":>=", false, Parser.ComparisonOperator.CmpOp.SGte) ]
-        [TestCase(":==", false, Parser.ComparisonOperator.CmpOp.SEq) ]
-        [TestCase(":!=", false, Parser.ComparisonOperator.CmpOp.SNe) ]
-        [TestCase("< ", true,  Parser.ComparisonOperator.CmpOp.Lt) ]
-        [TestCase("<= ", false, Parser.ComparisonOperator.CmpOp.Lte) ]
-        [TestCase("> ", true,  Parser.ComparisonOperator.CmpOp.Gt) ]
-        [TestCase(">= ", false, Parser.ComparisonOperator.CmpOp.Gte) ]
-        [TestCase("!= ", false, Parser.ComparisonOperator.CmpOp.Ne) ]
-        [TestCase("== ", false, Parser.ComparisonOperator.CmpOp.Eq) ]
+        [TestCase(":< ", true, Parser.ComparisonOperator.Op.SLt) ]
+        [TestCase(":<= ", false,Parser.ComparisonOperator.Op.SLte) ]
+        [TestCase(":> ", true, Parser.ComparisonOperator.Op.SGt) ]
+        [TestCase(":>=", false, Parser.ComparisonOperator.Op.SGte) ]
+        [TestCase(":==", false, Parser.ComparisonOperator.Op.SEq) ]
+        [TestCase(":!=", false, Parser.ComparisonOperator.Op.SNe) ]
+        [TestCase("< ", true,  Parser.ComparisonOperator.Op.Lt) ]
+        [TestCase("<= ", false, Parser.ComparisonOperator.Op.Lte) ]
+        [TestCase("> ", true,  Parser.ComparisonOperator.Op.Gt) ]
+        [TestCase(">= ", false, Parser.ComparisonOperator.Op.Gte) ]
+        [TestCase("!= ", false, Parser.ComparisonOperator.Op.Ne) ]
+        [TestCase("== ", false, Parser.ComparisonOperator.Op.Eq) ]
         [Test]
-        public static void FParseComparisionOperator_CompleteValue(string sParse, bool fUngetExpected, Parser.ComparisonOperator.CmpOp cmpOpExpected)
+        public static void FParseComparisionOperator_CompleteValue(string sParse, bool fUngetExpected, Parser.ComparisonOperator.Op opExpected)
         {
             Parser.ComparisonOperator.FAcceptParseStart(sParse[0], out Parser.ComparisonOperator op);
 
@@ -72,7 +72,7 @@ namespace PostfixText.Tests
                 ;
 
             Assert.AreEqual(fUngetExpected, fUngetActual);
-            Assert.AreEqual(cmpOpExpected, op.Operator);
+            Assert.AreEqual(opExpected, op.Operator);
         }
     }
 

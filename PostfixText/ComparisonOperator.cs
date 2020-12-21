@@ -8,7 +8,7 @@ namespace PostfixText
     {
         public class ComparisonOperator
         {
-            public enum CmpOp
+            public enum Op
             {
                 Gt = 0,
                 Gte = 1,
@@ -28,7 +28,7 @@ namespace PostfixText
             internal bool m_fBuildingCaseInsensitive;
             internal char m_chLast;
 
-            public CmpOp Operator { get; set; }
+            public Op Operator { get; set; }
 
             public ComparisonOperator(char ch)
             {
@@ -70,33 +70,33 @@ namespace PostfixText
                         if (ch != '=')
                             throw new Exception($"ComparisonOperator.Parse: {ch} illegal after '='");
 
-                        Operator = m_fBuildingCaseInsensitive ? CmpOp.SEq : CmpOp.Eq;
+                        Operator = m_fBuildingCaseInsensitive ? Op.SEq : Op.Eq;
                         return false;
                     case '<':
                         if (ch != '=')
                         {
-                            Operator = m_fBuildingCaseInsensitive ? CmpOp.SLt : CmpOp.Lt;
+                            Operator = m_fBuildingCaseInsensitive ? Op.SLt : Op.Lt;
                             fUnget = true; // we didn't process this char
                             return false;
                         }
 
-                        Operator = m_fBuildingCaseInsensitive ? CmpOp.SLte : CmpOp.Lte;
+                        Operator = m_fBuildingCaseInsensitive ? Op.SLte : Op.Lte;
                         return false;
                     case '>':
                         if (ch != '=')
                         {
-                            Operator = m_fBuildingCaseInsensitive ? CmpOp.SGt : CmpOp.Gt;
+                            Operator = m_fBuildingCaseInsensitive ? Op.SGt : Op.Gt;
                             fUnget = true; // we didn't process this char
                             return false;
                         }
 
-                        Operator = m_fBuildingCaseInsensitive ? CmpOp.SGte : CmpOp.Gte;
+                        Operator = m_fBuildingCaseInsensitive ? Op.SGte : Op.Gte;
                         return false;
                     case '!':
                         if (ch != '=')
                             throw new Exception($"ComparisonOperator.Parse: {ch} illegal after '!'");
 
-                        Operator = m_fBuildingCaseInsensitive ? CmpOp.SNe : CmpOp.Ne;
+                        Operator = m_fBuildingCaseInsensitive ? Op.SNe : Op.Ne;
                         return false;
                 }
                 throw new Exception($"unknown internal state in ComparisonOperator parse: {m_chLast}");
