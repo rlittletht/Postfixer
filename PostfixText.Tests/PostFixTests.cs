@@ -25,7 +25,7 @@ using PostfixText;
 namespace PostfixText.Tests
 {
     [TestFixture]
-    public class PostFixTests
+    public partial class PostFixTests
     {
         [Test]
         public static void TestAlwaysPass()
