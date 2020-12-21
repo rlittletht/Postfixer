@@ -44,7 +44,7 @@ namespace PostfixText
                 will this value accept this character as the start of a value? if so, 
                 create a new value. otherwise, return false and value is null
             ----------------------------------------------------------------------------*/
-            public static bool FAcceptValueStart(char ch, out Value value)
+            public static bool FAcceptParseStart(char ch, out Value value)
             {
                 value = null;
 

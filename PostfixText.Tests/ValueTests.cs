@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace PostfixText.Tests
 {
     [TestFixture]
-    public partial class ValueTests
+    public class ValueTests
     {
         [TestCase('[', true)] // leading field
         [TestCase('{', true)] // leading date
@@ -24,7 +24,7 @@ namespace PostfixText.Tests
         [Test]
         public static void FAcceptValueStart(char chValue, bool fExpected)
         {
-            bool fActual = Parser.Value.FAcceptValueStart(chValue, out Parser.Value value);
+            bool fActual = Parser.Value.FAcceptParseStart(chValue, out Parser.Value value);
 
             Assert.AreEqual(fExpected, fActual);
             Assert.AreEqual(fExpected, value != null);
@@ -38,7 +38,7 @@ namespace PostfixText.Tests
         [Test]
         public static void FParseValue_SingleChar(char chLeading, char chNext, bool fExpected, bool fUngetExpected, string sExpected)
         {
-            Parser.Value.FAcceptValueStart(chLeading, out Parser.Value value);
+            Parser.Value.FAcceptParseStart(chLeading, out Parser.Value value);
 
             Assert.AreEqual(fExpected, value.ParseNextValueChar(chNext, out bool fUngetActual));
             Assert.AreEqual(fUngetExpected, fUngetActual);
@@ -54,7 +54,7 @@ namespace PostfixText.Tests
         [Test]
         public static void FParseValue_CompleteValue(string sParse, bool fUngetExpected, string sExpected)
         {
-            Parser.Value.FAcceptValueStart(sParse[0], out Parser.Value value);
+            Parser.Value.FAcceptParseStart(sParse[0], out Parser.Value value);
 
             int ich = 1;
             bool fUngetActual = false;

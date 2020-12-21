@@ -6,7 +6,7 @@ namespace PostfixText
 {
     public partial class Parser
     {
-        public class ComparisonOperator
+        public class BooleanOperator
         {
             public enum Op
             {
