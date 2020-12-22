@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PostfixText
+namespace TCore.PostfixText
 {
     // A token is a single token, as in:
     public partial class Parser

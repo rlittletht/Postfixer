@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace PostfixText.Tests
+namespace TCore.PostfixText.Tests
 {
     [TestFixture]
     public class ExpressionTests

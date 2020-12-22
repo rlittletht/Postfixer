@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using PostfixText;
+using TCore.PostfixText;
 
 /*
  * This tests the netstandard2 component PostfixText.
@@ -22,7 +22,7 @@ using PostfixText;
  * name of the test module matches what you are declaring in the above
  * directive.
  */
-namespace PostfixText.Tests
+namespace TCore.PostfixText.Tests
 {
     [TestFixture]
     public partial class PostFixTests

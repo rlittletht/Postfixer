@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 
-namespace PostfixText.Tests
+namespace TCore.PostfixText.Tests
 {
 
     public class ComparisonOperatorTest

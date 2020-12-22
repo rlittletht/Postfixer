@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PostfixText
+namespace TCore.PostfixText
 {
     // Expression is a single expression as in:
 
