@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PostfixText
+namespace TCore.PostfixText
 {
     // The clause is the entire compiled PostFix string
 

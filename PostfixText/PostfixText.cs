@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("PostfixText.Tests")]
 
-namespace PostfixText
+namespace TCore.PostfixText
 {
     public class PostfixText
     {

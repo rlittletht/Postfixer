@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PostfixText
+namespace TCore.PostfixText
 {
     public partial class Parser
     {
