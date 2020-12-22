@@ -60,7 +60,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PostfixText\PostfixText.csproj">
+    <ProjectReference Include="..\PostfixText\TCore.PostfixText.csproj">
       <Project>{f70b5637-8a95-4790-9e00-0c8161003a05}</Project>
       <Name>PostfixText</Name>
     </ProjectReference>
