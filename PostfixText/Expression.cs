@@ -10,9 +10,10 @@ namespace TCore.PostfixText
     // [EXPRESSION] AND
     public class Expression
     {
-        internal Value m_lhs;
-        internal Value m_rhs;
-
+        public Value LHS { get; set; }
+        public Value RHS { get; set; }
+        public ComparisonOperator.Op Operator => m_comparisonOp.Operator;
+        
         internal ComparisonOperator m_comparisonOp;
         internal enum ParsingState
         {
@@ -43,7 +44,7 @@ namespace TCore.PostfixText
             if (Value.FAcceptParseStart(ch, out Value value))
             {
                 expression = new Expression();
-                expression.m_lhs = value;
+                expression.LHS = value;
                 expression.m_state = ParsingState.Value1;
 
                 return true;
@@ -64,7 +65,7 @@ namespace TCore.PostfixText
 
             if (m_state == ParsingState.Value1)
             {
-                if (m_lhs.ParseNextValueChar(ch, out bool fUngetValueChar))
+                if (LHS.ParseNextValueChar(ch, out bool fUngetValueChar))
                     return true;
 
                 m_state = ParsingState.PreCmpOp;
@@ -107,7 +108,7 @@ namespace TCore.PostfixText
             {
                 if (Value.FAcceptParseStart(ch, out Value value))
                 {
-                    m_rhs = value;
+                    RHS = value;
                     m_state = ParsingState.Value2;
                     return true;
                 }
@@ -120,7 +121,7 @@ namespace TCore.PostfixText
 
             if (m_state == ParsingState.Value2)
             {
-                if (m_rhs.ParseNextValueChar(ch, out bool fUngetValueChar))
+                if (RHS.ParseNextValueChar(ch, out bool fUngetValueChar))
                     return true;
 
                 m_state = ParsingState.Initial;

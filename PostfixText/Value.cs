@@ -16,8 +16,16 @@ namespace TCore.PostfixText
         }
 
         internal string m_value;
-        internal StringBuilder m_sbValue;
+        
+        // Value Caches -- these are the parsed equivalents, populated on demand based on the value type
+        // (fields are always calculated and never cache -- they rely on the valueClient)
+        internal DateTime? m_dttmValueCache;
+        internal int? m_nValueCache;
         internal ValueType m_type;
+
+        #region Parsing
+        
+        internal StringBuilder m_sbValue;
         internal bool m_fParsingEscape = false;
 
         /*----------------------------------------------------------------------------
@@ -85,6 +93,8 @@ namespace TCore.PostfixText
             m_sbValue = null;
         }
 
+        const string operators = "&||!=:<>";
+
         /*----------------------------------------------------------------------------
             %%Function: ParseNextValueChar
             %%Qualified: PostfixText.Parser.Value.ParseNextValueChar
@@ -119,8 +129,8 @@ namespace TCore.PostfixText
                             FinishParse();
                             return false;
                         }
-
-                        if (ch == '&' || ch == '|') // this terminates our parse and we push it back
+                      
+                        if (operators.IndexOf(ch) != -1) // this terminates our parse and we push it back
                         {
                             fUnget = true;
                             FinishParse();
@@ -172,15 +182,107 @@ namespace TCore.PostfixText
 
             throw new Exception("unknown value type");
         }
-
-        public void SetTokenString(string token)
+        
+        #endregion
+        
+        #region Evaluation
+        
+        public string GetValueString(PostfixText.IValueClient valueClient)
         {
-            m_value = token;
+            if (m_type != ValueType.Field)
+                return m_value;
+
+            return valueClient.GetStringFromField(m_value);
         }
 
-        public string GetTokenString()
+        public DateTime GetValueDateTime(PostfixText.IValueClient valueClient)
         {
-            return m_value;
+            if (m_type != ValueType.Field)
+            {
+                if (m_dttmValueCache == null)
+                    m_dttmValueCache = DateTime.Parse(m_value);
+
+                return m_dttmValueCache.Value;
+            }
+
+            DateTime? dttm = valueClient.GetDateTimeFromField(m_value);
+
+            if (dttm == null)
+                return DateTime.MinValue;
+
+            return dttm.Value;
         }
+
+        public int GetValueNumber(PostfixText.IValueClient valueClient)
+        {
+            if (m_type != ValueType.Field)
+            {
+                if (m_nValueCache == null)
+                    m_nValueCache = Int32.Parse(m_value);
+
+                return m_nValueCache.Value;
+            }
+
+            int? n = valueClient.GetNumberFromField(m_value);
+
+            if (n == null)
+                return 0;
+            
+            return n.Value;
+        }
+
+        public bool FDoComparison(PostfixText.IValueClient valueClient, ComparisonOperator.Op opCompare, Value rhs)
+        {
+            int nCmp;
+
+            opCompare = ComparisonOperator.OpCompareGenericFromOpCompare(opCompare, out bool fNoCase);
+            
+            if (m_type != rhs.m_type && m_type != ValueType.Field && rhs.m_type != ValueType.Field)
+                throw new Exception("cannot evaluate dissimilar value types");
+
+            Value.ValueType typeForCompare = m_type;
+
+            // need to figure out what kind of comparison to do. Fields will be inferred from the
+            // other value's type. If both values are fields, then its a string comparison
+            
+            if (typeForCompare == ValueType.Field)
+                typeForCompare = rhs.m_type;
+
+            if (typeForCompare == ValueType.Field)
+                typeForCompare = ValueType.String;
+            
+            if (typeForCompare == ValueType.String)
+                nCmp = System.String.Compare(GetValueString(valueClient), rhs.GetValueString(valueClient), fNoCase);
+            else if (typeForCompare == ValueType.DateTime)
+                nCmp = DateTime.Compare(GetValueDateTime(valueClient), rhs.GetValueDateTime(valueClient));
+            else if (typeForCompare == ValueType.Number)
+                nCmp = GetValueNumber(valueClient) - rhs.GetValueNumber(valueClient);
+            else
+                throw new Exception("unkown value type in comparison");
+
+            switch (opCompare)
+            {
+                case ComparisonOperator.Op.Eq:                    
+                    return nCmp == 0;
+                case ComparisonOperator.Op.SEq:                   
+                    return nCmp == 0;
+                case ComparisonOperator.Op.Ne:                    
+                    return nCmp != 0;
+                case ComparisonOperator.Op.SNe:                   
+                    return nCmp == 0;
+                case ComparisonOperator.Op.Gt:                    
+                    return nCmp > 0;
+                case ComparisonOperator.Op.Gte:                   
+                    return nCmp >= 0;
+                case ComparisonOperator.Op.Lt:                    
+                    return nCmp < 0;
+                case ComparisonOperator.Op.Lte:                   
+                    return nCmp <= 0;
+            }
+
+            throw new Exception("unknown op for compare");
+        }
+        
+        #endregion
     }
 }

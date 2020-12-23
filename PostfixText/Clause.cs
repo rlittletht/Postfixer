@@ -38,7 +38,7 @@ namespace TCore.PostfixText
         //
         // A single item in the clause -- either an expression or a PostFix operator
         // ============================================================================
-        internal class Item
+        public class Item
         {
             public enum Type
             {
@@ -67,6 +67,8 @@ namespace TCore.PostfixText
         internal ParseState m_state;
         internal Item m_itemBuilding;
 
+        public bool IsEmpty => m_items == null || m_items.Count == 0;
+
         public Clause()
         {
             m_items = new List<Item>();
@@ -83,6 +85,8 @@ namespace TCore.PostfixText
             m_items = new List<Item>();
             StartItem(expression);
         }
+
+        public List<Item> Items => m_items;
 
         #region Parsing
 
@@ -218,6 +222,70 @@ namespace TCore.PostfixText
 
             return false;
         }
+        #endregion
+
+        #region Evaluation
+
+        void Reduce(List<bool> stack, int cReduce, bool fReduceTo)
+        {
+            stack.RemoveRange(stack.Count - cReduce, cReduce);
+            stack.Add(fReduceTo);
+        }
+
+        void ReduceForOperator(List<bool> stack, PostfixOperator.Op op)
+        {
+            switch (op)
+            {
+                case PostfixOperator.Op.And:
+                {
+                    bool f1 = stack[stack.Count - 1];
+                    bool f2 = stack[stack.Count - 2];
+
+                    Reduce(stack, 2, f1 && f2);
+                    break;
+                }
+
+                case PostfixOperator.Op.Or:
+                {
+                    bool f1 = stack[stack.Count - 1];
+                    bool f2 = stack[stack.Count - 2];
+
+                    Reduce(stack, 2, f1 || f2);
+                    break;
+                }
+
+                default:
+                    throw new Exception("unknown op in evaluation");
+            }
+        }
+
+        void PushExpressionResult(List<bool> stack, Expression expression, PostfixText.IValueClient valueClient)
+        {
+            stack.Add(expression.LHS.FDoComparison(valueClient, expression.Operator, expression.RHS));
+        }
+
+        public bool FEvaluate(PostfixText.IValueClient valueClient)
+        {
+            if (IsEmpty)
+                return true;
+
+            // evaluate the list using a stack...
+            List<bool> stack = new List<bool>();
+
+            foreach (Item item in Items)
+            {
+                if (item.ItemType == Item.Type.Operation)
+                    ReduceForOperator(stack, item.ItemOp.Operator);
+                else
+                    PushExpressionResult(stack, item.ItemExpression, valueClient);
+            }
+
+            if (stack.Count > 1)
+                throw new Exception("expression did not reduce");
+
+            return stack[0];
+        }
+
         #endregion
     }
 }

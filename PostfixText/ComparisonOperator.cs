@@ -99,5 +99,17 @@ namespace TCore.PostfixText
             }
             throw new Exception($"unknown internal state in ComparisonOperator parse: {m_chLast}");
         }
+
+        public static Op OpCompareGenericFromOpCompare(Op op, out bool fNoCase)
+        {
+            if ((int) op >= (int) Op.SCaseInsensitiveFirst)
+            {
+                fNoCase = true;
+                return (ComparisonOperator.Op)((int)op - (int)Op.SCaseInsensitiveFirst);
+            }
+
+            fNoCase = false;
+            return op;
+        }
     }
 }

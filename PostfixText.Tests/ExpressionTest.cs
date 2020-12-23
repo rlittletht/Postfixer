@@ -32,11 +32,11 @@ namespace TCore.PostfixText.Tests
             while (expression.ParseNextValueChar(sInput[ich++], out fUngetActual))
                 ;
 
-            Assert.AreEqual(sLhsExpected, expression.m_lhs.m_value);
-            Assert.AreEqual(lhsTypeExpected, expression.m_lhs.m_type);
+            Assert.AreEqual(sLhsExpected, expression.LHS.m_value);
+            Assert.AreEqual(lhsTypeExpected, expression.LHS.m_type);
             Assert.AreEqual(opExpected, expression.m_comparisonOp.Operator);
-            Assert.AreEqual(sRhsExpected, expression.m_rhs.m_value);
-            Assert.AreEqual(rhsTypeExpected, expression.m_rhs.m_type);
+            Assert.AreEqual(sRhsExpected, expression.RHS.m_value);
+            Assert.AreEqual(rhsTypeExpected, expression.RHS.m_type);
             Assert.AreEqual(fUngetExpected, fUngetActual);
         }
     }

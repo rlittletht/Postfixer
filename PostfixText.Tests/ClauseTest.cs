@@ -40,11 +40,11 @@ namespace TCore.PostfixText.Tests
 
             Assert.AreEqual(1, clause.m_items.Count);
             Assert.AreEqual(Clause.Item.Type.Expression, clause.m_items[0].ItemType);
-            Assert.AreEqual(Value.ValueType.Field, clause.m_items[0].ItemExpression.m_lhs.m_type);
-            Assert.AreEqual("foo", clause.m_items[0].ItemExpression.m_lhs.m_value);
+            Assert.AreEqual(Value.ValueType.Field, clause.m_items[0].ItemExpression.LHS.m_type);
+            Assert.AreEqual("foo", clause.m_items[0].ItemExpression.LHS.m_value);
 
-            Assert.AreEqual(Value.ValueType.Number, clause.m_items[0].ItemExpression.m_rhs.m_type);
-            Assert.AreEqual("1", clause.m_items[0].ItemExpression.m_rhs.m_value);
+            Assert.AreEqual(Value.ValueType.Number, clause.m_items[0].ItemExpression.RHS.m_type);
+            Assert.AreEqual("1", clause.m_items[0].ItemExpression.RHS.m_value);
         }
 
         static void AssertTwoExpressionsCaseValid(Clause clause)
@@ -52,16 +52,16 @@ namespace TCore.PostfixText.Tests
             Assert.AreEqual(3, clause.m_items.Count);
 
             Assert.AreEqual(Clause.Item.Type.Expression, clause.m_items[0].ItemType);
-            Assert.AreEqual(Value.ValueType.Field, clause.m_items[0].ItemExpression.m_lhs.m_type);
-            Assert.AreEqual("bar", clause.m_items[0].ItemExpression.m_lhs.m_value);
-            Assert.AreEqual(Value.ValueType.DateTime, clause.m_items[0].ItemExpression.m_rhs.m_type);
-            Assert.AreEqual("123", clause.m_items[0].ItemExpression.m_rhs.m_value);
+            Assert.AreEqual(Value.ValueType.Field, clause.m_items[0].ItemExpression.LHS.m_type);
+            Assert.AreEqual("bar", clause.m_items[0].ItemExpression.LHS.m_value);
+            Assert.AreEqual(Value.ValueType.DateTime, clause.m_items[0].ItemExpression.RHS.m_type);
+            Assert.AreEqual("123", clause.m_items[0].ItemExpression.RHS.m_value);
 
             Assert.AreEqual(Clause.Item.Type.Expression, clause.m_items[1].ItemType);
-            Assert.AreEqual(Value.ValueType.Field, clause.m_items[1].ItemExpression.m_lhs.m_type);
-            Assert.AreEqual("foo", clause.m_items[1].ItemExpression.m_lhs.m_value);
-            Assert.AreEqual(Value.ValueType.Number, clause.m_items[1].ItemExpression.m_rhs.m_type);
-            Assert.AreEqual("1", clause.m_items[1].ItemExpression.m_rhs.m_value);
+            Assert.AreEqual(Value.ValueType.Field, clause.m_items[1].ItemExpression.LHS.m_type);
+            Assert.AreEqual("foo", clause.m_items[1].ItemExpression.LHS.m_value);
+            Assert.AreEqual(Value.ValueType.Number, clause.m_items[1].ItemExpression.RHS.m_type);
+            Assert.AreEqual("1", clause.m_items[1].ItemExpression.RHS.m_value);
 
             Assert.AreEqual(Clause.Item.Type.Operation, clause.m_items[2].ItemType);
             Assert.AreEqual(PostfixOperator.Op.And, clause.m_items[2].ItemOp.Operator);
