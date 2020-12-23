@@ -21,7 +21,7 @@ namespace TCore.PostfixText
             if (!client.FGetNextChar(out ch))
                 return null;
 
-            if (!Parser.Clause.FAcceptParseStart(ch, out clause))
+            if (!Clause.FAcceptParseStart(ch, out clause))
                 return null;
 
             while (client.FGetNextChar(out ch))

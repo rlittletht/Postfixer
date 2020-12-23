@@ -16,7 +16,7 @@ namespace TCore.PostfixText.Tests
         public static void TestParseString(string source, int cClauseExpected)
         {
             StringParserClient client = new StringParserClient(source);
-            Parser.Clause clause = Parser.BuildClause(client);
+            Clause clause = Parser.BuildClause(client);
 
             Assert.AreEqual(cClauseExpected, clause.m_items.Count);
         }
@@ -28,7 +28,7 @@ namespace TCore.PostfixText.Tests
         public static void TestParseArrayString(string[] sourceLines, int cClauseExpected)
         {
             StringArrayParserClient client = new StringArrayParserClient(sourceLines);
-            Parser.Clause clause = Parser.BuildClause(client);
+            Clause clause = Parser.BuildClause(client);
 
             Assert.AreEqual(cClauseExpected, clause.m_items.Count);
         }

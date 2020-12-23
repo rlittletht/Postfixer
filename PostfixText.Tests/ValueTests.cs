@@ -24,7 +24,7 @@ namespace TCore.PostfixText.Tests
         [Test]
         public static void FAcceptValueStart(char chValue, bool fExpected)
         {
-            bool fActual = Parser.Value.FAcceptParseStart(chValue, out Parser.Value value);
+            bool fActual = Value.FAcceptParseStart(chValue, out Value value);
 
             Assert.AreEqual(fExpected, fActual);
             Assert.AreEqual(fExpected, value != null);
@@ -39,7 +39,7 @@ namespace TCore.PostfixText.Tests
         [Test]
         public static void FParseValue_SingleChar(char chLeading, char chNext, bool fExpected, bool fUngetExpected, string sExpected)
         {
-            Parser.Value.FAcceptParseStart(chLeading, out Parser.Value value);
+            Value.FAcceptParseStart(chLeading, out Value value);
 
             Assert.AreEqual(fExpected, value.ParseNextValueChar(chNext, out bool fUngetActual));
             Assert.AreEqual(fUngetExpected, fUngetActual);
@@ -56,7 +56,7 @@ namespace TCore.PostfixText.Tests
         [Test]
         public static void FParseValue_CompleteValue(string sParse, bool fUngetExpected, string sExpected)
         {
-            Parser.Value.FAcceptParseStart(sParse[0], out Parser.Value value);
+            Value.FAcceptParseStart(sParse[0], out Value value);
 
             int ich = 1;
             bool fUngetActual = false;

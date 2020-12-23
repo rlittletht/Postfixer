@@ -24,7 +24,7 @@ namespace TCore.PostfixText.Tests
         [Test]
         public static void FAcceptParseStart(char chValue, bool fExpected)
         {
-            bool fActual = Parser.ComparisonOperator.FAcceptParseStart(chValue, out Parser.ComparisonOperator op);
+            bool fActual = ComparisonOperator.FAcceptParseStart(chValue, out ComparisonOperator op);
 
             Assert.AreEqual(fExpected, fActual);
             Assert.AreEqual(fExpected, op != null);
@@ -43,28 +43,28 @@ namespace TCore.PostfixText.Tests
         [Test]
         public static void FParseComparisionOperator_SingleChar(char chLeading, char chNext, bool fExpected, bool fUngetExpected)
         {
-            Parser.ComparisonOperator.FAcceptParseStart(chLeading, out Parser.ComparisonOperator op);
+            ComparisonOperator.FAcceptParseStart(chLeading, out ComparisonOperator op);
 
             Assert.AreEqual(fExpected, op.ParseNextValueChar(chNext, out bool fUngetActual));
             Assert.AreEqual(fUngetExpected, fUngetActual);
         }
 
-        [TestCase(":< ", true, Parser.ComparisonOperator.Op.SLt) ]
-        [TestCase(":<= ", false,Parser.ComparisonOperator.Op.SLte) ]
-        [TestCase(":> ", true, Parser.ComparisonOperator.Op.SGt) ]
-        [TestCase(":>=", false, Parser.ComparisonOperator.Op.SGte) ]
-        [TestCase(":==", false, Parser.ComparisonOperator.Op.SEq) ]
-        [TestCase(":!=", false, Parser.ComparisonOperator.Op.SNe) ]
-        [TestCase("< ", true,  Parser.ComparisonOperator.Op.Lt) ]
-        [TestCase("<= ", false, Parser.ComparisonOperator.Op.Lte) ]
-        [TestCase("> ", true,  Parser.ComparisonOperator.Op.Gt) ]
-        [TestCase(">= ", false, Parser.ComparisonOperator.Op.Gte) ]
-        [TestCase("!= ", false, Parser.ComparisonOperator.Op.Ne) ]
-        [TestCase("== ", false, Parser.ComparisonOperator.Op.Eq) ]
+        [TestCase(":< ", true, ComparisonOperator.Op.SLt) ]
+        [TestCase(":<= ", false,ComparisonOperator.Op.SLte) ]
+        [TestCase(":> ", true, ComparisonOperator.Op.SGt) ]
+        [TestCase(":>=", false, ComparisonOperator.Op.SGte) ]
+        [TestCase(":==", false, ComparisonOperator.Op.SEq) ]
+        [TestCase(":!=", false, ComparisonOperator.Op.SNe) ]
+        [TestCase("< ", true,  ComparisonOperator.Op.Lt) ]
+        [TestCase("<= ", false, ComparisonOperator.Op.Lte) ]
+        [TestCase("> ", true,  ComparisonOperator.Op.Gt) ]
+        [TestCase(">= ", false, ComparisonOperator.Op.Gte) ]
+        [TestCase("!= ", false, ComparisonOperator.Op.Ne) ]
+        [TestCase("== ", false, ComparisonOperator.Op.Eq) ]
         [Test]
-        public static void FParseComparisionOperator_CompleteValue(string sParse, bool fUngetExpected, Parser.ComparisonOperator.Op opExpected)
+        public static void FParseComparisionOperator_CompleteValue(string sParse, bool fUngetExpected, ComparisonOperator.Op opExpected)
         {
-            Parser.ComparisonOperator.FAcceptParseStart(sParse[0], out Parser.ComparisonOperator op);
+            ComparisonOperator.FAcceptParseStart(sParse[0], out ComparisonOperator op);
 
             int ich = 1;
             bool fUngetActual;

@@ -17,7 +17,7 @@ namespace TCore.PostfixText.Tests
         [Test]
         public static void FAcceptParseStart(char chValue, bool fExpected)
         {
-            bool fActual = Parser.PostfixOperator.FAcceptParseStart(chValue, out Parser.PostfixOperator op);
+            bool fActual = PostfixOperator.FAcceptParseStart(chValue, out PostfixOperator op);
 
             Assert.AreEqual(fExpected, fActual);
             Assert.AreEqual(fExpected, op != null);
@@ -28,18 +28,18 @@ namespace TCore.PostfixText.Tests
         [Test]
         public static void FParseComparisionOperator_SingleChar(char chLeading, char chNext, bool fExpected, bool fUngetExpected)
         {
-            Parser.PostfixOperator.FAcceptParseStart(chLeading, out Parser.PostfixOperator op);
+            PostfixOperator.FAcceptParseStart(chLeading, out PostfixOperator op);
 
             Assert.AreEqual(fExpected, op.ParseNextValueChar(chNext, out bool fUngetActual));
             Assert.AreEqual(fUngetExpected, fUngetActual);
         }
 
-        [TestCase("&&", false, Parser.PostfixOperator.Op.And)]
-        [TestCase("||", false, Parser.PostfixOperator.Op.Or)]
+        [TestCase("&&", false, PostfixOperator.Op.And)]
+        [TestCase("||", false, PostfixOperator.Op.Or)]
         [Test]
-        public static void FParseComparisionOperator_CompleteValue(string sParse, bool fUngetExpected, Parser.PostfixOperator.Op opExpected)
+        public static void FParseComparisionOperator_CompleteValue(string sParse, bool fUngetExpected, PostfixOperator.Op opExpected)
         {
-            Parser.PostfixOperator.FAcceptParseStart(sParse[0], out Parser.PostfixOperator op);
+            PostfixOperator.FAcceptParseStart(sParse[0], out PostfixOperator op);
 
             int ich = 1;
             bool fUngetActual;
