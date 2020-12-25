@@ -13,6 +13,12 @@ namespace TCore.PostfixText
     // turns an input stream into a compiled clause
     public partial class Parser
     {
+        /*----------------------------------------------------------------------------
+        	%%Function: BuildClause
+        	%%Qualified: TCore.PostfixText.Parser.BuildClause
+        	
+            Build a new clause from a parser client
+        ----------------------------------------------------------------------------*/
         public static Clause BuildClause(IParserClient client)
         {
             Clause clause;
