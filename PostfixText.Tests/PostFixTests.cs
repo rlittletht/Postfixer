@@ -26,121 +26,121 @@ using TCore.PostfixText;
  */
 namespace TCore.PostfixText.Tests
 {
-    [TestFixture]
-    public partial class PostFixTests
-    {
-        [Test]
-        public static void TestAlwaysPass()
-        {
-            Assert.IsTrue(PostfixText.AlwaysTrue());
-        }
+	[TestFixture]
+	public partial class PostFixTests
+	{
+		[Test]
+		public static void TestAlwaysPass()
+		{
+			Assert.IsTrue(PostfixText.AlwaysTrue());
+		}
 
-        [Test]
-        public static void TestExpressionEvaluate_NoPostfixOperator()
-        {
-            PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient("[_s1_s1_foo_]=='foo'"));
+		[Test]
+		public static void TestExpressionEvaluate_NoPostfixOperator()
+		{
+			PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient("[_s1_s1_foo_]=='foo'"));
 
-            ValueTests.ValueContextForText valueClient = new ValueTests.ValueContextForText();
-            Assert.IsTrue(pf.FEvaluate(valueClient));
-        }
+			ValueTests.ValueContextForText valueClient = new ValueTests.ValueContextForText();
+			Assert.IsTrue(pf.FEvaluate(valueClient));
+		}
 
-        [Test]
-        public static void TestExpressionEvaluate_SimpleStringWithAnd()
-        {
-            PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient("[_s1_s1_foo_]=='foo' 'bar':=='BAR' &&"));
+		[Test]
+		public static void TestExpressionEvaluate_SimpleStringWithAnd()
+		{
+			PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient("[_s1_s1_foo_]=='foo' 'bar':=='BAR' &&"));
 
-            ValueTests.ValueContextForText valueClient = new ValueTests.ValueContextForText();
-            Assert.IsTrue(pf.FEvaluate(valueClient));
-        }
+			ValueTests.ValueContextForText valueClient = new ValueTests.ValueContextForText();
+			Assert.IsTrue(pf.FEvaluate(valueClient));
+		}
 
-        [Test]
-        public static void TestExpressionEvaluate_SimpleStringWithOr()
-        {
-            PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient("[_s1_s1_foo_]=='foo' 'bar':=='BAR2' ||"));
+		[Test]
+		public static void TestExpressionEvaluate_SimpleStringWithOr()
+		{
+			PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient("[_s1_s1_foo_]=='foo' 'bar':=='BAR2' ||"));
 
-            ValueTests.ValueContextForText valueClient = new ValueTests.ValueContextForText();
-            Assert.IsTrue(pf.FEvaluate(valueClient));
-        }
+			ValueTests.ValueContextForText valueClient = new ValueTests.ValueContextForText();
+			Assert.IsTrue(pf.FEvaluate(valueClient));
+		}
 
-        [TestCase("[_s1_s1_2020-01-01_]=={2020-01-01}", true)] // Field comparing to date value
-        [TestCase("[_s1_s1_20_]==20", true)] // Field comparing to number
-        [TestCase("[_s1_s2_20_]==20", false)] // Field lookup fail number
-        [TestCase("[_s1_s2_20_]=='20'", false)] // Field lookup fail string
-        [TestCase("[_s1_s2_20_]=={2020-01-01}", false)] // Field lookup fail date
-        [TestCase("[_s1_s1_20_]==[_s2_s2_20_]", true)] // Field comparison
-        
-        // test all of the comparison operators for all types...
-        // strings
-        [TestCase("'foo'=='foo'", true)]
-        [TestCase("'foo'<='foo'", true)]
-        [TestCase("'boo'<='foo'", true)]
-        [TestCase("'foo'>='foo'", true)]
-        [TestCase("'foo'>='boo'", true)]
-        [TestCase("'foo'!='boo'", true)]
-        [TestCase("'boo'<'foo'", true)]
-        [TestCase("'foo'>'boo'", true)]
-        [TestCase("'fOO':=='foo'", true)]
-        [TestCase("'fOO':<='foo'", true)]
-        [TestCase("'bOO':<='foo'", true)]
-        [TestCase("'fOO':>='foo'", true)]
-        [TestCase("'fOO':>='boo'", true)]
-        [TestCase("'fOO':!='boo'", true)]
-        [TestCase("'bOO':<'foo'", true)]
-        [TestCase("'fOO':>'boo'", true)]
+		[TestCase("[_s1_s1_2020-01-01_]=={2020-01-01}", true)] // Field comparing to date value
+		[TestCase("[_s1_s1_20_]==20", true)] // Field comparing to number
+		[TestCase("[_s1_s2_20_]==20", false)] // Field lookup fail number
+		[TestCase("[_s1_s2_20_]=='20'", false)] // Field lookup fail string
+		[TestCase("[_s1_s2_20_]=={2020-01-01}", false)] // Field lookup fail date
+		[TestCase("[_s1_s1_20_]==[_s2_s2_20_]", true)] // Field comparison
 
-        // numbers
-        [TestCase("123==123", true)]
-        [TestCase("123<=123", true)]
-        [TestCase("100<=123", true)]
-        [TestCase("123>=123", true)]
-        [TestCase("123>=100", true)]
-        [TestCase("123!=100", true)]
-        [TestCase("100 <123", true)]
-        [TestCase("123 >100", true)]
+		// test all of the comparison operators for all types...
+		// strings
+		[TestCase("'foo'=='foo'", true)]
+		[TestCase("'foo'<='foo'", true)]
+		[TestCase("'boo'<='foo'", true)]
+		[TestCase("'foo'>='foo'", true)]
+		[TestCase("'foo'>='boo'", true)]
+		[TestCase("'foo'!='boo'", true)]
+		[TestCase("'boo'<'foo'", true)]
+		[TestCase("'foo'>'boo'", true)]
+		[TestCase("'fOO':=='foo'", true)]
+		[TestCase("'fOO':<='foo'", true)]
+		[TestCase("'bOO':<='foo'", true)]
+		[TestCase("'fOO':>='foo'", true)]
+		[TestCase("'fOO':>='boo'", true)]
+		[TestCase("'fOO':!='boo'", true)]
+		[TestCase("'bOO':<'foo'", true)]
+		[TestCase("'fOO':>'boo'", true)]
 
-        // datetime
-        [TestCase("'{2020-01-02}'=='{2020-01-02}'", true)]
-        [TestCase("'{2020-01-02}'<='{2020-01-02}'", true)]
-        [TestCase("'{2020-01-01}'<='{2020-01-02}'", true)]
-        [TestCase("'{2020-01-02}'>='{2020-01-02}'", true)]
-        [TestCase("'{2020-01-02}'>='{2020-01-01}'", true)]
-        [TestCase("'{2020-01-02}'!='{2020-01-01}'", true)]
-        [TestCase("'{2020-01-01}'<'{2020-01-02}'", true)]
-        [TestCase("'{2020-01-02}'>'{2020-01-01}'", true)]
+		// numbers
+		[TestCase("123==123", true)]
+		[TestCase("123<=123", true)]
+		[TestCase("100<=123", true)]
+		[TestCase("123>=123", true)]
+		[TestCase("123>=100", true)]
+		[TestCase("123!=100", true)]
+		[TestCase("100 <123", true)]
+		[TestCase("123 >100", true)]
 
-        // Test the false results as well (only need this for one type)
-        [TestCase("123!=123", false)]
-        [TestCase("123>=124", false)]
-        [TestCase("100>=123", false)]
-        [TestCase("123<=122", false)]
-        [TestCase("123<=100", false)]
-        [TestCase("123==100", false)]
-        [TestCase("100 >123", false)]
-        [TestCase("123 <100", false)]
+		// datetime
+		[TestCase("'{2020-01-02}'=='{2020-01-02}'", true)]
+		[TestCase("'{2020-01-02}'<='{2020-01-02}'", true)]
+		[TestCase("'{2020-01-01}'<='{2020-01-02}'", true)]
+		[TestCase("'{2020-01-02}'>='{2020-01-02}'", true)]
+		[TestCase("'{2020-01-02}'>='{2020-01-01}'", true)]
+		[TestCase("'{2020-01-02}'!='{2020-01-01}'", true)]
+		[TestCase("'{2020-01-01}'<'{2020-01-02}'", true)]
+		[TestCase("'{2020-01-02}'>'{2020-01-01}'", true)]
 
-        // now some postfix expressions (using constant numbers for simplicity)
-        [TestCase("2>1", true)] // true
-        
-        // establish the boolean operations work
-        [TestCase("2>1 2>1 &&", true)] // true && true
-        [TestCase("2>1 1>2 &&", false)] // true && false
-        [TestCase("1>2 2>1 &&", false)] // false && true
-        [TestCase("1>2 1>2 &&", false)] // false && false
-        
-        [TestCase("2>1 2>1 ||", true)] // true || true
-        [TestCase("2>1 1>2 ||", true)] // true || false
-        [TestCase("1>2 2>1 ||", true)] // false || true
-        [TestCase("1>2 1>2 ||", false)] // false || false
+		// Test the false results as well (only need this for one type)
+		[TestCase("123!=123", false)]
+		[TestCase("123>=124", false)]
+		[TestCase("100>=123", false)]
+		[TestCase("123<=122", false)]
+		[TestCase("123<=100", false)]
+		[TestCase("123==100", false)]
+		[TestCase("100 >123", false)]
+		[TestCase("123 <100", false)]
 
-        [TestCase("2>1 2>1 && 2>1 &&", true)] // (true && true) && true
-        [TestCase("2>1 2>1 2>1 && &&", true)] // (true && (true && true))
-        [Test]
-        public static void TestExpressionEvaluation(string sExpressionIn, bool fExpected)
-        {
-            PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient(sExpressionIn));
+		// now some postfix expressions (using constant numbers for simplicity)
+		[TestCase("2>1", true)] // true
 
-            ValueTests.ValueContextForText valueClient = new ValueTests.ValueContextForText();
-            Assert.AreEqual(fExpected, pf.FEvaluate(valueClient));
-        }
-    }
+		// establish the boolean operations work
+		[TestCase("2>1 2>1 &&", true)] // true && true
+		[TestCase("2>1 1>2 &&", false)] // true && false
+		[TestCase("1>2 2>1 &&", false)] // false && true
+		[TestCase("1>2 1>2 &&", false)] // false && false
+
+		[TestCase("2>1 2>1 ||", true)] // true || true
+		[TestCase("2>1 1>2 ||", true)] // true || false
+		[TestCase("1>2 2>1 ||", true)] // false || true
+		[TestCase("1>2 1>2 ||", false)] // false || false
+
+		[TestCase("2>1 2>1 && 2>1 &&", true)] // (true && true) && true
+		[TestCase("2>1 2>1 2>1 && &&", true)] // (true && (true && true))
+		[Test]
+		public static void TestExpressionEvaluation(string sExpressionIn, bool fExpected)
+		{
+			PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient(sExpressionIn));
+
+			ValueTests.ValueContextForText valueClient = new ValueTests.ValueContextForText();
+			Assert.AreEqual(fExpected, pf.FEvaluate(valueClient));
+		}
+	}
 }
