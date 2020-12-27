@@ -61,6 +61,11 @@ namespace TCore.PostfixText
 			return m_clause.ToString();
 		}
 
+		public string[] ToStrings()
+		{
+			return m_clause.ToStrings();
+		}
+		
 		public PostfixText Clone()
 		{
 			return CreateFromParserClient(new StringParserClient(this.ToString()));

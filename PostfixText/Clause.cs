@@ -292,22 +292,30 @@ namespace TCore.PostfixText
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
-			
-			foreach (Item item in m_items)
+
+			foreach (string s in ToStrings())
 			{
-				if (item.ItemType == Item.Type.Expression)
-				{
-					sb.Append(item.ItemExpression.ToString());
-					sb.Append(" ");
-				}
-				else
-				{
-					sb.Append(item.ItemOp.ToString());
-					sb.Append(" ");
-				}
+				sb.Append(s);
+				sb.Append(" ");
 			}
 
 			return sb.ToString();
+		}
+
+		public string[] ToStrings()
+		{
+			List<string> strings = new List<string>();
+
+			foreach (Item item in m_items)
+			{
+				if (item.ItemType == Item.Type.Expression)
+					strings.Add(item.ItemExpression.ToString());
+				else
+					strings[strings.Count - 1] = $"{strings[strings.Count - 1]} {item.ItemOp.ToString()}";
+			}
+
+			return strings.ToArray();
+
 		}
 
 		public void AddExpression(Expression expression)
