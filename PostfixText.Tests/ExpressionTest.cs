@@ -46,5 +46,20 @@ namespace TCore.PostfixText.Tests
 			Assert.AreEqual(rhsTypeExpected, expression.RHS.m_type);
 			Assert.AreEqual(fUngetExpected, fUngetActual);
 		}
+
+		[TestCase("123   !=   321 ", "123 != 321")]
+		[Test]
+		public static void Test_ToString(string sParse, string sToStringExpected)
+		{
+			Assert.IsTrue(Expression.FAcceptParseStart(sParse[0], out Expression expression));
+
+			int ich = 1;
+			bool fUngetActual = false;
+
+			while (expression.ParseNextValueChar(sParse[ich++], out fUngetActual))
+				;
+
+			Assert.AreEqual(sToStringExpected, expression.ToString());
+		}
 	}
 }

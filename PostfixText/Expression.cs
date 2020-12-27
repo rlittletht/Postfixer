@@ -32,6 +32,8 @@ namespace TCore.PostfixText
 		{
 		}
 
+		#region Parsing
+
 		/*----------------------------------------------------------------------------
 		    %%Function: FAcceptParseStart
 		    %%Qualified: PostfixText.Parser.Expression.FAcceptParseStart
@@ -137,6 +139,13 @@ namespace TCore.PostfixText
 			}
 
 			throw new Exception("unknown state parsing expression");
+		}
+
+		#endregion
+
+		public override string ToString()
+		{
+			return $"{LHS.ToString()} {m_comparisonOp.ToString()} {RHS.ToString()}";
 		}
 	}
 }
