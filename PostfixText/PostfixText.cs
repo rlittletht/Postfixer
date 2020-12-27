@@ -44,6 +44,11 @@ namespace TCore.PostfixText
 			return m_clause.FEvaluate(valueClient);
 		}
 
+		public override string ToString()
+		{
+			return m_clause.ToString();
+		}
+		
 		internal static bool AlwaysTrue()
 		{
 			return true;

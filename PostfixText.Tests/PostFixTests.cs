@@ -142,5 +142,17 @@ namespace TCore.PostfixText.Tests
 			ValueTests.ValueContextForText valueClient = new ValueTests.ValueContextForText();
 			Assert.AreEqual(fExpected, pf.FEvaluate(valueClient));
 		}
+
+		[TestCase("[bar]   ==   123  ", "[bar] == 123 ")]
+		[TestCase("[bar]   ==   123||  '2' :!= '3'  ", "[bar] == 123 || '2' :!= '3' ")]
+		[TestCase("    [bar]   ==   123  ", "[bar] == 123 ")]
+		[TestCase("\n\n  [bar]   ==   123||  '2' :!= '3'  ", "[bar] == 123 || '2' :!= '3' ")]
+		[Test]
+		public static void Test_ToString(string sParse, string sToStringExpected)
+		{
+			PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient(sParse));
+
+			Assert.AreEqual(sToStringExpected, pf.ToString());
+		}
 	}
 }

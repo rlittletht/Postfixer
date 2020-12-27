@@ -23,9 +23,12 @@ namespace TCore.PostfixText
 		{
 			Clause clause;
 
-			char ch;
-			if (!client.FGetNextChar(out ch))
-				return null;
+			char ch = ' ';
+
+			// eat up leading whitespace
+			while (char.IsWhiteSpace(ch))
+				if (!client.FGetNextChar(out ch))
+					return null;
 
 			if (!Clause.FAcceptParseStart(ch, out clause))
 				return null;
