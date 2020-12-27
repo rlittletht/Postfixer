@@ -40,6 +40,8 @@ namespace TCore.PostfixText
 			m_chLast = ch;
 		}
 
+		#region Parsing
+
 		public static bool FAcceptParseStart(char ch, out ComparisonOperator cmpOperator)
 		{
 			cmpOperator = null;
@@ -106,11 +108,32 @@ namespace TCore.PostfixText
 			if ((int) op >= (int) Op.SCaseInsensitiveFirst)
 			{
 				fNoCase = true;
-				return (ComparisonOperator.Op) ((int) op - (int) Op.SCaseInsensitiveFirst);
+				return (Op) ((int) op - (int) Op.SCaseInsensitiveFirst);
 			}
 
 			fNoCase = false;
 			return op;
+		}
+		#endregion
+
+		public override string ToString()
+		{
+			switch (Operator)
+			{
+				case Op.Gt: return ">";
+				case Op.Gte: return ">=";
+				case Op.Lt: return "<";
+				case Op.Lte: return "<=";
+				case Op.Eq: return "==";
+				case Op.Ne: return "!=";
+				case Op.SGt: return ":>";
+				case Op.SGte: return ":>=";
+				case Op.SLt: return ":<";
+				case Op.SLte: return ":<=";
+				case Op.SEq: return ":==";
+				case Op.SNe: return ":!=";
+				default: throw new Exception("unknown operator");
+			}
 		}
 	}
 }
