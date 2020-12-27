@@ -49,5 +49,20 @@ namespace TCore.PostfixText.Tests
 			Assert.AreEqual(fUngetExpected, fUngetActual);
 			Assert.AreEqual(opExpected, op.Operator);
 		}
+
+		[TestCase("&&", "&&")]
+		[TestCase("||", "||")]
+		[Test]
+		public static void Test_ToString(string sParse, string sToStringExpected)
+		{
+			PostfixOperator.FAcceptParseStart(sParse[0], out PostfixOperator op);
+
+			int ich = 1;
+			bool fUngetActual;
+			while (op.ParseNextValueChar(sParse[ich++], out fUngetActual))
+				;
+
+			Assert.AreEqual(sToStringExpected, op.ToString());
+		}
 	}
 }

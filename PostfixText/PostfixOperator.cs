@@ -21,6 +21,8 @@ namespace TCore.PostfixText
 			m_chLast = ch;
 		}
 
+		#region Parsing
+		
 		public static bool FAcceptParseStart(char ch, out PostfixOperator cmpOperator)
 		{
 			cmpOperator = null;
@@ -49,6 +51,14 @@ namespace TCore.PostfixText
 			Operator = Op.Or;
 			return false;
 		}
+		#endregion
 
+		public override string ToString()
+		{
+			if (Operator == Op.And)
+				return "&&";
+			else
+				return "||";
+		}
 	}
 }
