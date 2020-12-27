@@ -284,5 +284,22 @@ namespace TCore.PostfixText
 		}
 
 		#endregion
+
+		public override string ToString()
+		{
+			switch (m_type)
+			{
+			case ValueType.String:
+				return $"'{m_value}'";
+			case ValueType.Number:
+				return m_value;
+			case ValueType.DateTime:
+				return $"{{{m_value}}}";
+			case ValueType.Field:
+				return $"[{m_value}]";
+			default:
+				throw new Exception("unknown type in tostring for value");
+			}
+		}
 	}
 }

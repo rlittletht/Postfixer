@@ -113,5 +113,22 @@ namespace TCore.PostfixText.Tests
 				return null;
 			}
 		}
+
+		[TestCase("123 ", "123")]
+		[TestCase("'123'", "'123'")]
+		[TestCase("{123}", "{123}")]
+		[TestCase("[12 123]", "[12 123]")]
+		[Test]
+		public static void Test_ToString(string sParse, string sToStringExpected)
+		{
+			Value.FAcceptParseStart(sParse[0], out Value value);
+
+			int ich = 1;
+			bool fUngetActual = false;
+			while (value.ParseNextValueChar(sParse[ich++], out fUngetActual))
+				;
+
+			Assert.AreEqual(sToStringExpected, value.ToString());
+		}
 	}
 }
