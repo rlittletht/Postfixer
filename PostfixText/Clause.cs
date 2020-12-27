@@ -286,7 +286,28 @@ namespace TCore.PostfixText
 
 			return stack[0];
 		}
-
+		
 		#endregion
+
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			
+			foreach (Item item in m_items)
+			{
+				if (item.ItemType == Item.Type.Expression)
+				{
+					sb.Append(item.ItemExpression.ToString());
+					sb.Append(" ");
+				}
+				else
+				{
+					sb.Append(item.ItemOp.ToString());
+					sb.Append(" ");
+				}
+			}
+
+			return sb.ToString();
+		}
 	}
 }

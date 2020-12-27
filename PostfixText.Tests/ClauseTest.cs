@@ -88,5 +88,14 @@ namespace TCore.PostfixText.Tests
 			AssertTwoExpressionsCaseValid(clause);
 		}
 
+		[TestCase("[bar]   ==   123  ", "[bar] == 123 ")]
+		[TestCase("[bar]   ==   123||  '2' :!= '3'  ", "[bar] == 123 || '2' :!= '3' ")]
+		[Test]
+		public static void Test_ToString(string sParse, string sToStringExpected)
+		{
+			Clause clause = CreateClauseForString(sParse);
+
+			Assert.AreEqual(sToStringExpected, clause.ToString());
+		}
 	}
 }
