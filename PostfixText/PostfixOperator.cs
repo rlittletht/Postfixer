@@ -21,6 +21,11 @@ namespace TCore.PostfixText
 			m_chLast = ch;
 		}
 
+		public PostfixOperator(Op op)
+		{
+			Operator = op;
+		}
+		
 		#region Parsing
 		
 		public static bool FAcceptParseStart(char ch, out PostfixOperator cmpOperator)

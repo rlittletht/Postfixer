@@ -112,6 +112,12 @@ namespace TCore.PostfixText.Tests
 
 				return null;
 			}
+
+			public Value.ValueType GetFieldValueType(string sField)
+			{
+				// we don't care, so just return Field again -- it will keep looking
+				return Value.ValueType.Field;
+			}
 		}
 
 		[TestCase("123 ", "123")]

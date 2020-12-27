@@ -23,6 +23,26 @@ namespace TCore.PostfixText
 		internal int? m_nValueCache;
 		internal ValueType m_type;
 
+		public ValueType Type => m_type;
+		public string _Value => m_value;
+		
+		public Value() { }
+
+		public static Value Create(ValueType type, string sValue)
+		{
+			Value value = new Value();
+
+			value.m_type = type;
+			value.m_value = sValue;
+			
+			return value;
+		}
+
+		public static Value Create(string value) => Create(ValueType.String, value);
+		public static Value Create(int value) => Create(ValueType.Number, value.ToString());
+		public static Value Create(DateTime value) => Create(ValueType.DateTime, value.ToString("MM/dd/yyyy"));
+		public static Value CreateForField(string value) => Create(ValueType.Field, value);
+
 		#region Parsing
 
 		internal StringBuilder m_sbValue;
@@ -246,8 +266,14 @@ namespace TCore.PostfixText
 			// other value's type. If both values are fields, then its a string comparison
 
 			if (typeForCompare == ValueType.Field)
+				typeForCompare = valueClient.GetFieldValueType(m_value);
+
+			if (typeForCompare == ValueType.Field)
 				typeForCompare = rhs.m_type;
 
+			if (typeForCompare == ValueType.Field)
+				typeForCompare = valueClient.GetFieldValueType(rhs._Value);
+			
 			if (typeForCompare == ValueType.Field)
 				typeForCompare = ValueType.String;
 

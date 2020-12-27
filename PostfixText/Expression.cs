@@ -28,8 +28,17 @@ namespace TCore.PostfixText
 
 		internal ParsingState m_state;
 
-		public Expression()
+		public Expression() { }
+
+		public static Expression Create(Value lhs, Value rhs, ComparisonOperator op)
 		{
+			Expression expression = new Expression();
+
+			expression.LHS = lhs;
+			expression.RHS = rhs;
+			expression.m_comparisonOp = op;
+
+			return expression;
 		}
 
 		#region Parsing

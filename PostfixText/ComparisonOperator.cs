@@ -40,6 +40,12 @@ namespace TCore.PostfixText
 			m_chLast = ch;
 		}
 
+		public ComparisonOperator() { }
+		public ComparisonOperator(Op op)
+		{
+			Operator = op;
+		}
+		
 		#region Parsing
 
 		public static bool FAcceptParseStart(char ch, out ComparisonOperator cmpOperator)

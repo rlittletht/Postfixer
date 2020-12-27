@@ -18,14 +18,26 @@ namespace TCore.PostfixText
 			string GetStringFromField(string field);
 			int? GetNumberFromField(string field);
 			DateTime? GetDateTimeFromField(string field);
+			
+			// some fields have a strong opinion about their type
+			Value.ValueType GetFieldValueType(string sField);
+			
 		}
 
 		private Clause m_clause;
 
-		public PostfixText()
+		public Clause Clause => m_clause;
+		
+		public PostfixText(Clause clause)
 		{
+			m_clause = clause;
 		}
 
+		public PostfixText()
+		{
+			m_clause = new Clause();
+		}
+		
 		public static PostfixText CreateFromParserClient(IParserClient client)
 		{
 			Clause clause = Parser.BuildClause(client);
@@ -47,6 +59,21 @@ namespace TCore.PostfixText
 		public override string ToString()
 		{
 			return m_clause.ToString();
+		}
+
+		public PostfixText Clone()
+		{
+			return CreateFromParserClient(new StringParserClient(this.ToString()));
+		}
+
+		public void AddExpression(Expression expression)
+		{
+			m_clause.AddExpression(expression);
+		}
+		
+		public void AddOperator(PostfixOperator op)
+		{
+			m_clause.AddOperator(op);
 		}
 		
 		internal static bool AlwaysTrue()

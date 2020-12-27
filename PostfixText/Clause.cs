@@ -309,5 +309,15 @@ namespace TCore.PostfixText
 
 			return sb.ToString();
 		}
+
+		public void AddExpression(Expression expression)
+		{
+			m_items.Add(new Item(expression));
+		}
+
+		public void AddOperator(PostfixOperator op)
+		{
+			m_items.Add(new Item(op));
+		}
 	}
 }
