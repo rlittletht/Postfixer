@@ -6,84 +6,83 @@ using System.Runtime.CompilerServices;
 
 namespace TCore.PostfixText
 {
-	// A PostfixText object holds a compiled clause (either obtained
-	// by parsing a string, or by constructing directly). 
+    // A PostfixText object holds a compiled clause (either obtained
+    // by parsing a string, or by constructing directly). 
 
-	// FEvaluate() will evaluate the clause, using the provided 
-	// interface to resolve variables
-	public class PostfixText
-	{
-		public interface IValueClient
-		{
-			string GetStringFromField(string field);
-			int? GetNumberFromField(string field);
-			DateTime? GetDateTimeFromField(string field);
-			
-			// some fields have a strong opinion about their type
-			Value.ValueType GetFieldValueType(string sField);
-			
-		}
+    // FEvaluate() will evaluate the clause, using the provided 
+    // interface to resolve variables
+    public class PostfixText
+    {
+        public interface IValueClient
+        {
+            string GetStringFromField(string field);
+            int? GetNumberFromField(string field);
+            DateTime? GetDateTimeFromField(string field);
 
-		private Clause m_clause;
+            // some fields have a strong opinion about their type
+            Value.ValueType GetFieldValueType(string sField);
+        }
 
-		public Clause Clause => m_clause;
-		
-		public PostfixText(Clause clause)
-		{
-			m_clause = clause;
-		}
+        private Clause m_clause;
 
-		public PostfixText()
-		{
-			m_clause = new Clause();
-		}
-		
-		public static PostfixText CreateFromParserClient(IParserClient client)
-		{
-			Clause clause = Parser.BuildClause(client);
+        public Clause Clause => m_clause;
 
-			if (clause == null)
-				return null;
+        public PostfixText(Clause clause)
+        {
+            m_clause = clause;
+        }
 
-			PostfixText postfix = new PostfixText();
-			postfix.m_clause = clause;
+        public PostfixText()
+        {
+            m_clause = new Clause();
+        }
 
-			return postfix;
-		}
+        public static PostfixText CreateFromParserClient(IParserClient client)
+        {
+            Clause clause = Parser.BuildClause(client);
 
-		public bool FEvaluate(IValueClient valueClient)
-		{
-			return m_clause.FEvaluate(valueClient);
-		}
+            if (clause == null)
+                return null;
 
-		public override string ToString()
-		{
-			return m_clause.ToString();
-		}
+            PostfixText postfix = new PostfixText();
+            postfix.m_clause = clause;
 
-		public string[] ToStrings()
-		{
-			return m_clause.ToStrings();
-		}
-		
-		public PostfixText Clone()
-		{
-			return CreateFromParserClient(new StringParserClient(this.ToString()));
-		}
+            return postfix;
+        }
 
-		public void AddExpression(Expression expression)
-		{
-			m_clause.AddExpression(expression);
-		}
-		
-		public void AddOperator(PostfixOperator op)
-		{
-			m_clause.AddOperator(op);
-		}
-		
-		internal static bool AlwaysTrue()
-		{
-			return true;
-		}
-	}
+        public bool FEvaluate(IValueClient valueClient)
+        {
+            return m_clause.FEvaluate(valueClient);
+        }
+
+        public override string ToString()
+        {
+            return m_clause.ToString();
+        }
+
+        public string[] ToStrings()
+        {
+            return m_clause.ToStrings();
+        }
+
+        public PostfixText Clone()
+        {
+            return CreateFromParserClient(new StringParserClient(this.ToString()));
+        }
+
+        public void AddExpression(Expression expression)
+        {
+            m_clause.AddExpression(expression);
+        }
+
+        public void AddOperator(PostfixOperator op)
+        {
+            m_clause.AddOperator(op);
+        }
+
+        internal static bool AlwaysTrue()
+        {
+            return true;
+        }
+    }
 }
