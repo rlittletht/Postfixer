@@ -5,89 +5,98 @@ using System.Text;
 
 namespace TCore.PostfixText
 {
-    public interface IParserClient
-    {
-        bool FGetNextChar(out char ch);
-    }
+	public interface IParserClient
+	{
+		bool FGetNextChar(out char ch);
+	}
 
-    // turns an input stream into a compiled clause
-    public partial class Parser
-    {
-        public static Clause BuildClause(IParserClient client)
-        {
-            Clause clause;
+	// turns an input stream into a compiled clause
+	public partial class Parser
+	{
+		/*----------------------------------------------------------------------------
+        	%%Function: BuildClause
+        	%%Qualified: TCore.PostfixText.Parser.BuildClause
+        	
+            Build a new clause from a parser client
+        ----------------------------------------------------------------------------*/
+		public static Clause BuildClause(IParserClient client)
+		{
+			Clause clause;
 
-            char ch;
-            if (!client.FGetNextChar(out ch))
-                return null;
+			char ch = ' ';
 
-            if (!Parser.Clause.FAcceptParseStart(ch, out clause))
-                return null;
+			// eat up leading whitespace
+			while (char.IsWhiteSpace(ch))
+				if (!client.FGetNextChar(out ch))
+					return null;
 
-            while (client.FGetNextChar(out ch))
-            {
-                if (!clause.ParseNextValueChar(ch, out bool fUnget))
-                    return clause;
-            }
+			if (!Clause.FAcceptParseStart(ch, out clause))
+				return null;
 
-            if (!clause.FFinishParse())
-                return null;
-            return clause;
-        }
-    }
+			while (client.FGetNextChar(out ch))
+			{
+				if (!clause.ParseNextValueChar(ch, out bool fUnget))
+					return clause;
+			}
 
-    public class StringParserClient : IParserClient
-    {
-        private string source;
-        private int ich = 0;
+			if (!clause.FFinishParse())
+				return null;
+			return clause;
+		}
+	}
 
-        public StringParserClient(string s)
-        {
-            source = s;
-        }
+	public class StringParserClient : IParserClient
+	{
+		private string source;
+		private int ich = 0;
 
-        public bool FGetNextChar(out char ch)
-        {
-            ch = '\0';
+		public StringParserClient(string s)
+		{
+			source = s;
+		}
 
-            if (ich >= source.Length)
-                return false;
+		public bool FGetNextChar(out char ch)
+		{
+			ch = '\0';
 
-            ch = source[ich++];
-            return true;
-        }
-    }
+			if (ich >= source.Length)
+				return false;
 
-    public class StringArrayParserClient : IParserClient
-    {
-        private IEnumerator<string> sourceLines;
-        private int ich = 0;
-        private int cchMax = 0;
+			ch = source[ich++];
+			return true;
+		}
+	}
 
-        public StringArrayParserClient(IEnumerable<string> sourceLinesIn)
-        {
-            sourceLines = sourceLinesIn.GetEnumerator();
-            if (!sourceLines.MoveNext())
-                cchMax = 0;
-            else
-                cchMax = sourceLines.Current.Length;
-        }
+	public class StringArrayParserClient : IParserClient
+	{
+		private IEnumerator<string> sourceLines;
+		private int ich = 0;
+		private int cchMax = 0;
 
-        public bool FGetNextChar(out char ch)
-        {
-            ch = '\0';
+		public StringArrayParserClient(IEnumerable<string> sourceLinesIn)
+		{
+			sourceLines = sourceLinesIn.GetEnumerator();
+			if (!sourceLines.MoveNext())
+				cchMax = 0;
+			else
+				cchMax = sourceLines.Current.Length;
+		}
 
-            while (ich >= cchMax)
-            {
-                if (!sourceLines.MoveNext())
-                    return false;
+		public bool FGetNextChar(out char ch)
+		{
+			ch = '\0';
 
-                cchMax = sourceLines.Current.Length;
-                ich = 0;
-            }
+			while (ich >= cchMax)
+			{
+				if (!sourceLines.MoveNext())
+					return false;
 
-            ch = sourceLines.Current[ich++];
-            return true;
-        }
-    }
+				cchMax = sourceLines.Current.Length;
+				ich = 0;
+			}
+
+			ch = sourceLines.Current[ich++];
+			return true;
+		}
+	}
 }
