@@ -1,9 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net462;net472;net48;net7.0;net8.0</TargetFrameworks>
     <AssemblyName>TCore.PostfixText</AssemblyName>
     <RootNamespace>TCore.PostfixText</RootNamespace>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <ProjectGuid>{843D7879-0499-4A71-A088-E2674664C8B8}</ProjectGuid>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PackageId>TCore.PostfixText</PackageId>
+    <Authors>Robert Little</Authors>
+    <Company>Robert Little</Company>
+    <Product>TCore.PostfixText</Product>
+    <Description>Postfix expressions (compiled and text), conversion, and evaluation</Description>
+    <RepositoryUrl>https://github.com/rlittletht/Postfixer</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/rlittletht/Postfixer/blob/master/LICENSE</PackageLicenseUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
+    <PackageReleaseNotes>
+    </PackageReleaseNotes>
+    <Version>1.2.0</Version>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+    <IncludeSymbols>False</IncludeSymbols>
+  </PropertyGroup>
 </Project>

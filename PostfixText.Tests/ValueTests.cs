@@ -56,6 +56,7 @@ namespace TCore.PostfixText.Tests
         [TestCase("123&&", true, "123", Value.ValueType.Number)]
         [TestCase("[field]", false, "field", Value.ValueType.Field)]
         [TestCase("[_fld_fld_fld_]", false, "_fld_fld_fld_", Value.ValueType.Field)]
+        [TestCase("[51a8327f-6ecf-4ddf-9671-1d99fbcd108f]", false, "51a8327f-6ecf-4ddf-9671-1d99fbcd108f", Value.ValueType.Field)]
         [TestCase("{123} ", false, "123", Value.ValueType.DateTime)]
         [TestCase("'foo'", false, "foo", Value.ValueType.String)]
         [TestCase("'\\\'foo'", false, "'foo", Value.ValueType.String)]

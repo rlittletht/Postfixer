@@ -23,6 +23,8 @@ namespace TCore.PostfixText
             Value.ValueType GetFieldValueType(string sField);
         }
 
+        public delegate string MapFieldNameDelegate(string fieldName);
+
         private Clause m_clause;
 
         public Clause Clause => m_clause;
@@ -55,14 +57,18 @@ namespace TCore.PostfixText
             return m_clause.FEvaluate(valueClient);
         }
 
+        public string ToString(MapFieldNameDelegate mapDelegate)
+        {
+            return m_clause.ToString(mapDelegate);
+        }
+
         public override string ToString()
         {
             return m_clause.ToString();
         }
-
-        public string[] ToStrings()
+        public string[] ToStrings(MapFieldNameDelegate mapDelegate)
         {
-            return m_clause.ToStrings();
+            return m_clause.ToStrings(mapDelegate);
         }
 
         public PostfixText Clone()
@@ -78,6 +84,11 @@ namespace TCore.PostfixText
         public void AddOperator(PostfixOperator op)
         {
             m_clause.AddOperator(op);
+        }
+
+        public int ValuesRemainingAfterReduce()
+        {
+            return m_clause.ValuesRemainingAfterReduce();
         }
 
         internal static bool AlwaysTrue()

@@ -35,6 +35,23 @@ namespace TCore.PostfixText.Tests
             Assert.IsTrue(PostfixText.AlwaysTrue());
         }
 
+        [TestCase("[_s1_]=='foo'", new [] {"_s1_", "DISP:S1" }, "DISP:S1=='foo'")]
+        [Test]
+        public static void TestBuildString(string expression, string[] mapIn, string expected)
+        {
+            Dictionary<string, string> map = new Dictionary<string, string>();
+
+            for (int idx = 0; idx + 1 < mapIn.Length; idx += 2)
+            {
+                map.Add(mapIn[idx], mapIn[idx + 1]);
+            }
+
+            PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient("[_s1_s1_foo_]=='foo'"));
+
+            ValueTests.ValueContextForText valueClient = new ValueTests.ValueContextForText();
+            Assert.IsTrue(pf.FEvaluate(valueClient));
+        }
+
         [Test]
         public static void TestExpressionEvaluate_NoPostfixOperator()
         {
@@ -151,6 +168,35 @@ namespace TCore.PostfixText.Tests
             PostfixText pf = PostfixText.CreateFromParserClient(new StringParserClient(sParse));
 
             Assert.AreEqual(sToStringExpected, pf.ToString());
+        }
+
+        [Test]
+        public static void Test_AddOneExpression_NoOperator()
+        {
+            PostfixText pf = new PostfixText();
+
+            pf.AddExpression(Expression.Create(Value.CreateForField("foo"), Value.Create("bar"), new ComparisonOperator(ComparisonOperator.Op.Eq)));
+
+            Assert.AreEqual("[foo] == 'bar' ", pf.ToString());
+        }
+
+        [Test]
+        public static void Test_AddOneExpression_AndOperator()
+        {
+            PostfixText pf = new PostfixText();
+            bool caught = false;
+
+            pf.AddExpression(Expression.Create(Value.CreateForField("foo"), Value.Create("bar"), new ComparisonOperator(ComparisonOperator.Op.Eq)));
+            try
+            {
+                pf.AddOperator(new PostfixOperator(PostfixOperator.Op.And));
+            }
+            catch (Exception ex)
+            {
+                caught = true;
+            }
+
+            Assert.IsTrue(caught);
         }
     }
 }

@@ -313,7 +313,7 @@ namespace TCore.PostfixText
 
 #endregion
 
-        public override string ToString()
+        public string ToString(PostfixText.MapFieldNameDelegate mapDelegate)
         {
             switch (m_type)
             {
@@ -324,10 +324,18 @@ namespace TCore.PostfixText
                 case ValueType.DateTime:
                     return $"{{{m_value}}}";
                 case ValueType.Field:
+                    if (mapDelegate != null)
+                        return mapDelegate(m_value);
+
                     return $"[{m_value}]";
                 default:
                     throw new Exception("unknown type in tostring for value");
             }
+        }
+
+        public override string ToString()
+        {
+            return ToString(null);
         }
     }
 }

@@ -154,9 +154,14 @@ namespace TCore.PostfixText
 
 #endregion
 
+        public string ToString(PostfixText.MapFieldNameDelegate mapDelegate)
+        {
+            return $"{LHS.ToString(mapDelegate)} {m_comparisonOp.ToString()} {RHS.ToString(mapDelegate)}";
+        }
+
         public override string ToString()
         {
-            return $"{LHS.ToString()} {m_comparisonOp.ToString()} {RHS.ToString()}";
+            return ToString(null);
         }
     }
 }

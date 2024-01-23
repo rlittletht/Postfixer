@@ -287,13 +287,44 @@ namespace TCore.PostfixText
             return stack[0];
         }
 
+        /*----------------------------------------------------------------------------
+            %%Function: ValuesRemainingAfterReduce
+            %%Qualified: TCore.PostfixText.Clause.ValuesRemainingAfterReduce
+
+            This is like an evaluation, but it doesn't actually evaluate values.
+
+            returns the number of values remaining on the stack (this is fine while
+            we are building an expression), or -1 if this is already invalid
+            (e.g. VALUE && -- the && needs two values)
+        ----------------------------------------------------------------------------*/
+        public int ValuesRemainingAfterReduce()
+        {
+            int valuesOnStack = 0;
+
+            foreach (Item item in Items)
+            {
+                if (item.ItemType == Item.Type.Operation)
+                {
+                    valuesOnStack -= 2;
+                    if (valuesOnStack < 0)
+                        return -1;
+                    valuesOnStack++;
+                }
+                else
+                {
+                    valuesOnStack++;
+                }
+            }
+
+            return valuesOnStack;
+        }
 #endregion
 
-        public override string ToString()
+        public string ToString(PostfixText.MapFieldNameDelegate mapDelegate)
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (string s in ToStrings())
+            foreach (string s in ToStrings(mapDelegate))
             {
                 sb.Append(s);
                 sb.Append(" ");
@@ -302,14 +333,20 @@ namespace TCore.PostfixText
             return sb.ToString();
         }
 
-        public string[] ToStrings()
+
+        public override string ToString()
+        {
+            return ToString(null);
+        }
+
+        public string[] ToStrings(PostfixText.MapFieldNameDelegate mapDelegate)
         {
             List<string> strings = new List<string>();
 
             foreach (Item item in m_items)
             {
                 if (item.ItemType == Item.Type.Expression)
-                    strings.Add(item.ItemExpression.ToString());
+                    strings.Add(item.ItemExpression.ToString(mapDelegate));
                 else
                     strings[strings.Count - 1] = $"{strings[strings.Count - 1]} {item.ItemOp.ToString()}";
             }
@@ -324,6 +361,9 @@ namespace TCore.PostfixText
 
         public void AddOperator(PostfixOperator op)
         {
+            if (ValuesRemainingAfterReduce() < 2)
+                throw new Exception("cannot add an operator without 2 values");
+
             m_items.Add(new Item(op));
         }
     }
